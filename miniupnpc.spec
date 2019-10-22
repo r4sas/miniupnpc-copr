@@ -48,14 +48,7 @@ This package contains python3 interfaces to %{name}.
 %patch0 -p0
 cp %{SOURCE1} .
 
-sed -i "s|\(\tpython3 setup.py install\)$|\1 --root=\$(DESTDIR)/|" Makefile
-
-# version not updated in setup.py
-sed -i 's/"1\.7"/"%{version}"/' setup.py
-
-# Changelog says added -ansi without reason, but that
-# breaks C files (python module) using C++ comments
-sed -i 's/\(CFLAGS += -ansi\)/#\1/' Makefile
+sed -i "s|\(\tMAKE=\$(MAKE) python3 setup.py install\)$|\1 --root=\$(DESTDIR)/|" Makefile
 
 %build
 mkdir -p build
