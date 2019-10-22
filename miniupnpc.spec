@@ -1,22 +1,17 @@
-%if 0%{?fedora} >= 18
-%global with_python3	1
 %global basepy3dir	%(echo ../`basename %{py3dir}`)
-%else
-%global with_python3	0
-%endif
-%global major	16
+%global major	17
 %filter_provides_in %{python_sitearch}/.*\.so$ 
 
 Summary:	Library and tool to control NAT in UPnP-enabled routers
 Name:		miniupnpc
-Version:	2.0
+Version:	2.1
 Release:	1%{?dist}
 License:	BSD
 Group:		System Environment/Libraries
 URL:		http://miniupnp.free.fr/
 Source:		https://miniupnp.tuxfamily.org/files/%{name}-%{version}.tar.gz
 BuildRequires:	cmake
-BuildRequires:	python2-devel
+BuildRequires:	python3-devel
 # Do not create libminiupnpc.so.%%{version} and libminiupnpc.so.%%{major} linking to it
 Patch0:		%{name}-version.patch
 # Link to and find libminiupnpc
@@ -41,15 +36,6 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 This package contains the header files and development documentation
 for %{name}.
 
-%package	-n python-%{name}
-Summary:	Python interface to %{name}
-Group:		System Environment/Libraries
-Requires:	%{name}%{?_isa} = %{version}-%{release}
-
-%description	-n python-%{name}
-This package contains python interfaces to %{name}.
-
-%if %{with_python3}
 %package	-n python3-%{name}
 Summary:	Python3 interface to %{name}
 Group:		System Environment/Libraries
@@ -58,7 +44,6 @@ BuildRequires:	python3-devel
 
 %description	-n python3-%{name}
 This package contains python3 interfaces to %{name}.
-%endif
 
 %prep
 %setup -q
@@ -66,10 +51,7 @@ This package contains python3 interfaces to %{name}.
 %patch1 -p1
 cp %{SOURCE1} .
 
-sed -i "s|\(\tpython setup.py install\)$|\1 --root=\$(DESTDIR)/|" Makefile
-%if %{with_python3}
 sed -i "s|\(\tpython3 setup.py install\)$|\1 --root=\$(DESTDIR)/|" Makefile
-%endif
 
 # version not updated in setup.py
 sed -i 's/"1\.7"/"%{version}"/' setup.py
@@ -87,18 +69,12 @@ pushd build
 	..
     make upnpc-shared all
 popd
-make pythonmodule
-%if %{with_python3}
 make pythonmodule3
-%endif
 make upnpc-shared
 
 %install
 make install DESTDIR=$RPM_BUILD_ROOT -C build
-make DESTDIR=$RPM_BUILD_ROOT installpythonmodule
-%if %{with_python3}
 make DESTDIR=$RPM_BUILD_ROOT installpythonmodule3
-%endif
 install -D -m644 man3/miniupnpc.3 $RPM_BUILD_ROOT/%{_mandir}/man3/miniupnpc.3
 install -D -m 0755 upnpc-shared $RPM_BUILD_ROOT%{_bindir}/upnpc
 
@@ -122,17 +98,14 @@ make CFLAGS="%{optflags} -DMINIUPNPC_SET_SOCKET_TIMEOUT" check
 %{_libdir}/libminiupnpc.so
 %{_mandir}/man3/miniupnpc.3*
 
-%files		-n python-%{name}
-%{python_sitearch}/miniupnpc-%{version}-py?.?.egg-info
-%{python_sitearch}/miniupnpc.so
-
-%if %{with_python3}
 %files		-n python3-%{name}
 %{python3_sitearch}/miniupnpc-%{version}-py?.?.egg-info
 %{python3_sitearch}/miniupnpc*.so
-%endif
 
 %changelog
+* Tue Oct 22 2019 r4sas <r4sas@i2pmail.org> - 2.1-1
+- update to 2.1, remove python2 build rules
+
 * Wed Jun 08 2016 François Kooman <fkooman@tuxed.net> - 2.0-1
 - update to 2.0
 
