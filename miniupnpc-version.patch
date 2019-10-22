@@ -1,0 +1,10 @@
+--- CMakeLists.txt.orig	2016-06-08 10:22:31.058083356 +0200
++++ CMakeLists.txt	2016-06-08 10:22:49.698117692 +0200
+@@ -118,7 +118,6 @@
+ if (UPNPC_BUILD_SHARED)
+   add_library (upnpc-shared SHARED ${MINIUPNPC_SOURCES})
+   set_target_properties (upnpc-shared PROPERTIES OUTPUT_NAME "miniupnpc")
+-  set_target_properties (upnpc-shared PROPERTIES VERSION ${MINIUPNPC_VERSION})
+   set_target_properties (upnpc-shared PROPERTIES SOVERSION ${MINIUPNPC_API_VERSION})
+   target_link_libraries (upnpc-shared ${LDLIBS})
+   set (UPNPC_INSTALL_TARGETS ${UPNPC_INSTALL_TARGETS} upnpc-shared)
