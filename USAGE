@@ -1,0 +1,45 @@
+Project: miniupnp
+Project web page: http://miniupnp.free.fr/ or http://miniupnp.tuxfamily.org/
+Author: Thomas Bernard
+Copyright (c) 2005-2011 Thomas Bernard
+This software is subject to the conditions detailed in the
+LICENSE file provided within this distribution.
+
+This file was contributed by Domingo Becker, domingobecker@gmail.com
+
+UPnPc usage
+===== =====
+
+From the command line:
+
+For listing all forwarded ports through UPnP in the current router:
+
+upnpc -l
+
+For adding a new port forward rule to the current router, for example, 
+to forward tcp traffic on port 81 to internal ip port 80:
+
+upnpc -a 10.0.0.3 80 81 tcp
+
+You don't have to worry about overwriting previous rules, because the
+new ones will replace existing ones. 
+
+If upnpc fails to add the rule, it may be because the port was added
+before in a static forwarding rule.
+
+Traffic on port 1900 is blocked by default on Fedora, and even if 
+you open it, all traffic gets blocked because the nature of SSDP protocol.
+You will need to open incoming traffic from udp port 1900, because the
+packet sent to the router was from YourIP to 239.255.255.250 and the answer
+sent by the router is from RouterIP to YourIP. As a result, conntrack 
+module can't track that kind of traffic and blocks all incoming answers.
+To add the iptables rule manually, do the following:
+
+iptables -I INPUT -p udp --sport 1900 -j ACCEPT
+
+You may also add this custom rule to system-config-firewall.
+
+I hope you enjoy.
+
+Domingo Becker
+
