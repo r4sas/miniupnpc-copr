@@ -14,7 +14,7 @@ Release:	1%{?dist}
 License:	BSD
 Group:		System Environment/Libraries
 URL:		http://miniupnp.free.fr/
-Source:		http://miniupnp.free.fr/files/%{name}-%{version}.tar.gz
+Source:		https://miniupnp.tuxfamily.org/files/%{name}-%{version}.tar.gz
 BuildRequires:	cmake
 BuildRequires:	python2-devel
 # Do not create libminiupnpc.so.%%{version} and libminiupnpc.so.%%{major} linking to it
