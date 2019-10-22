@@ -14,8 +14,6 @@ BuildRequires:	cmake
 BuildRequires:	python3-devel
 # Do not create libminiupnpc.so.%%{version} and libminiupnpc.so.%%{major} linking to it
 Patch0:		%{name}-version.patch
-# Link to and find libminiupnpc
-Patch1:		%{name}-tests.patch
 Source1:	USAGE
 
 %description
