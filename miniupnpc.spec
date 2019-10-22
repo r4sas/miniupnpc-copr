@@ -46,7 +46,6 @@ This package contains python3 interfaces to %{name}.
 %prep
 %setup -q
 %patch0 -p0
-%patch1 -p1
 cp %{SOURCE1} .
 
 sed -i "s|\(\tpython3 setup.py install\)$|\1 --root=\$(DESTDIR)/|" Makefile
