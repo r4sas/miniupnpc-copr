@@ -19,7 +19,7 @@ BuildRequires:  make
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 
-Source0:    http://miniupnp.free.fr/files/%{name}-%{version}.tar.gz
+Source0:    https://miniupnp.free.fr/files/%{name}-%{version}.tar.gz
 
 %description
 miniupnpc is an implementation of a UPnP client library, enabling applications
