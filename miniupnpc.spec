@@ -9,9 +9,9 @@
 Summary:    Library and tool to control NAT in UPnP-enabled routers
 Name:       miniupnpc
 Version:    2.2.5
-Release:    3%{?dist}
+Release:    4%{?dist}
 License:    BSD
-URL:        http://miniupnp.free.fr/
+URL:        https://miniupnp.tuxfamily.org/
 
 BuildRequires:  cmake >= 3.5.0
 BuildRequires:  gcc
@@ -59,7 +59,12 @@ sed -i -e 's|build/libminiupnpc.a|build/libminiupnpc.so.%{version}|g' setup.py
     -DUPNPC_BUILD_SHARED=TRUE \
     -DUPNPC_BUILD_STATIC=FALSE \
     -DUPNPC_BUILD_TESTS=TRUE \
+%if 0%{?openeuler}
+    -DUPNPC_NO_INSTALL=FALSE \
+    .
+%else
     -DUPNPC_NO_INSTALL=FALSE
+%endif
 
 %cmake_build
 %py3_build
